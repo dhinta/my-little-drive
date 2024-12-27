@@ -5,7 +5,6 @@ import ReactDOM from 'react-dom/client';
 import App from './App.tsx';
 import './index.css';
 
-console.log(import.meta.env.MLD_SITE_URL);
 const convex = new ConvexReactClient(import.meta.env.MLD_SITE_URL as string);
 
 ReactDOM.createRoot(document.getElementById('root')!).render(

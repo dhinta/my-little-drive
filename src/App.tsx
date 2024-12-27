@@ -1,13 +1,9 @@
-import { Login } from '@/pages/auth/login';
+import { RouterProvider } from 'react-router';
 import './App.css';
+import { routes } from './routes';
 
 function App() {
-  // const { signIn } = useAuthActions();
-  // return (
-  //   <button onClick={() => void signIn('google')}>Sign in with Google</button>
-  // );
-
-  return <Login />;
+  return <RouterProvider router={routes} />;
 }
 
 export default App;
