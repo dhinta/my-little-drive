@@ -1,7 +1,11 @@
+import { useAuthActions } from '@convex-dev/auth/react';
 import './App.css';
 
 function App() {
-  return <h1 className="text-3xl font-bold">My Little Drive</h1>;
+  const { signIn } = useAuthActions();
+  return (
+    <button onClick={() => void signIn('google')}>Sign in with Google</button>
+  );
 }
 
 export default App;
