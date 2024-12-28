@@ -1,13 +1,17 @@
 import { Loader } from '@/common/components';
 import { useConvexAuth } from 'convex/react';
 import { Navigate, Outlet } from 'react-router';
+import { Header, Sidebar } from '../app-shell';
 
 export function PrivateLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
-  console.log('From Private Layout', 'isAuthenticated', isAuthenticated);
   if (isLoading) {
-    return <Loader />;
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <Loader />
+      </div>
+    );
   }
 
   if (!isAuthenticated) {
@@ -15,9 +19,10 @@ export function PrivateLayout() {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100">
-      <div className="flex">
-        {/* Sidebar can be added here */}
+    <div className="min-h-screen flex flex-col">
+      <Header />
+      <div className="flex flex-1">
+        <Sidebar />
         <main className="flex-1 p-6">
           <Outlet />
         </main>

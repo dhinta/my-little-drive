@@ -51,6 +51,7 @@ export default {
           5: 'hsl(var(--chart-5))',
         },
         'theme-blue': '#2A55FF',
+        'theme-grey': '#F8FAFD',
       },
     },
   },
