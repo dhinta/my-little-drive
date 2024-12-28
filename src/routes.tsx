@@ -1,4 +1,4 @@
-import { Login } from '@/pages/auth/login';
+import { Home, Login } from '@/pages';
 import { createBrowserRouter, redirect } from 'react-router';
 import {
   PrivateLayout,
@@ -12,7 +12,7 @@ export const routes = createBrowserRouter([
     children: [
       {
         path: '',
-        element: <div>Home</div>,
+        element: <Home />,
       },
     ],
   },
