@@ -5,6 +5,7 @@ import { Navigate, Outlet } from 'react-router';
 export function PrivateLayout() {
   const { isAuthenticated, isLoading } = useConvexAuth();
 
+  console.log('From Private Layout', 'isAuthenticated', isAuthenticated);
   if (isLoading) {
     return <Loader />;
   }
