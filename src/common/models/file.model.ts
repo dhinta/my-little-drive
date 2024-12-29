@@ -14,3 +14,12 @@ export enum FileType {
   DOCUMENT = 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
   PDF = 'application/pdf',
 }
+
+export enum DialogType {
+  NONE = 'none',
+  FOLDER = 'folder',
+  NOTE = 'note',
+  DOCUMENT = 'document',
+}
+
+export const ALT_C = 'ALT-C';

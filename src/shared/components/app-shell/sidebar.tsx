@@ -1,14 +1,12 @@
-import { Button } from '@/vendors/ui/button';
-import { Folder, House, Plus, Users } from 'lucide-react';
+import { Folder, House, Users } from 'lucide-react';
 import { Link } from 'react-router';
+import { Menu } from './menu';
 
 export function Sidebar() {
   return (
     <div className="w-1/5 p-4 shadow-sm">
-      <Button className="text-lg px-6">
-        <Plus size={28} />
-        New
-      </Button>
+      <Menu />
+
       <ul className="mt-4">
         <li className="mb-4">
           <Link
