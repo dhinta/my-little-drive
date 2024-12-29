@@ -1,7 +1,7 @@
 import logo from '@/assets/logo.png';
+import { api } from '@convex/_generated/api';
 import { useQuery } from 'convex/react';
 import { Link } from 'react-router';
-import { api } from '../../../../convex/_generated/api';
 import { UserMenu } from './user-menu';
 
 export function Header() {

@@ -52,6 +52,7 @@ export default {
         },
         'theme-blue': '#2A55FF',
         'theme-grey': '#F8FAFD',
+        'theme-dark-grey': '#7C7C7C',
       },
     },
   },
