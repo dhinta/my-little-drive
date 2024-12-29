@@ -8,47 +8,50 @@ import {
   DialogTitle,
 } from '@/vendors/ui/dialog';
 import { Input } from '@/vendors/ui/input';
-import { Label } from '@/vendors/ui/label';
 import { DialogDescription } from '@radix-ui/react-dialog';
-import { FormEvent, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 
 interface Props {
   setOpen: (type: DialogType) => void;
-  onSave: (name: string) => void;
+  onSave: (name: string, content: string) => void;
 }
 
-export function NewFolder({ setOpen, onSave }: Props) {
-  const [assetName, setAssetName] = useState('');
+const DEFAULT_ASSET_NAME = 'Untitled Note';
+
+export function NewNote({ setOpen, onSave }: Props) {
+  const [assetName, setAssetName] = useState(() => DEFAULT_ASSET_NAME);
+  const ref = useRef<HTMLDivElement>(null);
 
   const onSubmit = (e: FormEvent) => {
     e.preventDefault();
-    onSave(assetName);
+    onSave(assetName, ref.current?.innerHTML ?? '');
     setOpen(DialogType.NONE);
   };
+
   return (
     <Dialog open onOpenChange={() => setOpen(DialogType.NONE)}>
-      <DialogContent className="sm:max-w-[425px]">
-        <DialogHeader>
-          <DialogTitle>New Folder</DialogTitle>
-          <DialogDescription className="sr-only">
-            Create a new folder
-          </DialogDescription>
-        </DialogHeader>
+      <DialogContent className="min-w-[750px] min-h-[450px]">
         <form onSubmit={onSubmit}>
-          <div className="grid gap-4 py-4">
-            <div className="flex items-center">
-              <Label htmlFor="name" className="text-right sr-only">
-                Create New Folder
-              </Label>
+          <DialogHeader>
+            <DialogTitle>
               <Input
                 id="name"
                 autoComplete="off"
                 value={assetName}
                 onChange={e => setAssetName(e.target.value)}
-                className="col-span-3"
+                className="col-span-3 max-w-[500px] font-normal border-0 focus:ring-1 hover:ring-1 shadow-none"
               />
-            </div>
-          </div>
+            </DialogTitle>
+            <DialogDescription className="sr-only">
+              Create a new note
+            </DialogDescription>
+          </DialogHeader>
+          <div
+            className="border-dark-grey border-2 p-8 min-h-[400px] outline-none my-4"
+            contentEditable
+            suppressContentEditableWarning={true}
+            ref={ref}
+          ></div>
           <DialogFooter>
             <Button
               type="button"
@@ -58,9 +61,7 @@ export function NewFolder({ setOpen, onSave }: Props) {
             >
               Cancel
             </Button>
-            <Button disabled={!assetName} type="submit">
-              Create
-            </Button>
+            <Button type="submit">Create</Button>
           </DialogFooter>
         </form>
       </DialogContent>

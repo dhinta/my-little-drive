@@ -10,21 +10,21 @@ import {
 import { Input } from '@/vendors/ui/input';
 import { Label } from '@/vendors/ui/label';
 import { DialogDescription } from '@radix-ui/react-dialog';
+import { useState } from 'react';
 
 interface Props {
   setOpen: (type: DialogType) => void;
-  assetName: string;
-  setAssetName: (assetName: string) => void;
 }
 
-export function NewDocument({ setOpen, assetName, setAssetName }: Props) {
+export function NewDocument({ setOpen }: Props) {
+  const [assetName, setAssetName] = useState('');
   return (
     <Dialog open onOpenChange={() => setOpen(DialogType.NONE)}>
       <DialogContent className="sm:max-w-[425px]">
         <DialogHeader>
           <DialogTitle>New Document</DialogTitle>
           <DialogDescription className="sr-only">
-            Make changes to your profile here. Click save when you're done.
+            Upload a new document
           </DialogDescription>
         </DialogHeader>
         <div className="grid gap-4 py-4">
@@ -50,7 +50,7 @@ export function NewDocument({ setOpen, assetName, setAssetName }: Props) {
           >
             Cancel
           </Button>
-          <Button disabled={!assetName}>Create</Button>
+          <Button disabled={!assetName}>Upload</Button>
         </DialogFooter>
       </DialogContent>
     </Dialog>

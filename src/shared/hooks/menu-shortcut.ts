@@ -1,7 +1,7 @@
 import { ALT_C } from '@/common/models';
 import { useEffect, useState } from 'react';
 
-export function useMenuShortcut() {
+export function useMenuShortcut(chars: string[] = []) {
   const [keyboardShortcutCode, setKeyboardShortcutCode] = useState('');
 
   useEffect(() => {
@@ -12,7 +12,7 @@ export function useMenuShortcut() {
         return;
       }
 
-      if (char === 'F' || char === 'D') {
+      if (chars.includes(char)) {
         setKeyboardShortcutCode(text => `${text}-${char}`);
         e.preventDefault();
       }

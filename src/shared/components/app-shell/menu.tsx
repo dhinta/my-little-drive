@@ -13,18 +13,23 @@ import {
 } from '@/vendors/ui/dropdown-menu';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
-import { NewDocument, NewFolder } from '../assets-dialogs';
+import { NewDocument, NewFolder, NewNote } from '../assets-dialogs';
 
 export function Menu(): JSX.Element {
-  const [assetName, setAssetName] = useState('');
   const [open, setOpen] = useState<DialogType>(DialogType.NONE);
-  const [keyboardShortcutCode, _] = useMenuShortcut();
+  const [keyboardShortcutCode, _] = useMenuShortcut(['F', 'D', 'N']);
   const keyboardEventMapper: Record<string, () => void> = {
     [`${ALT_C}-F`]: () => setOpen(DialogType.FOLDER),
     [`${ALT_C}-D`]: () => setOpen(DialogType.DOCUMENT),
+    [`${ALT_C}-N`]: () => setOpen(DialogType.NOTE),
   };
 
+  const onNoteSave = (name: string, content: string) =>
+    console.log(name, content);
+  const onFolderSave = (name: string) => console.log(name);
+
   useEffect(() => {
+    console.log('keyboardShortcutCode', keyboardShortcutCode);
     if (keyboardEventMapper[keyboardShortcutCode]) {
       keyboardEventMapper[keyboardShortcutCode]();
     }
@@ -32,21 +37,19 @@ export function Menu(): JSX.Element {
 
   const dialogNewFolderElement =
     open === DialogType.FOLDER ? (
-      <NewFolder
-        assetName={assetName}
-        setOpen={setOpen}
-        setAssetName={setAssetName}
-      />
+      <NewFolder setOpen={setOpen} onSave={onFolderSave} />
     ) : null;
 
   const dialogNewDocumentElement =
-    open === DialogType.DOCUMENT ? (
-      <NewDocument
-        assetName={assetName}
-        setOpen={setOpen}
-        setAssetName={setAssetName}
-      />
+    open === DialogType.DOCUMENT ? <NewDocument setOpen={setOpen} /> : null;
+
+  const dialogNewNoteElement =
+    open === DialogType.NOTE ? (
+      <NewNote setOpen={setOpen} onSave={onNoteSave} />
     ) : null;
+
+  const dialogElement =
+    dialogNewFolderElement || dialogNewDocumentElement || dialogNewNoteElement;
 
   return (
     <>
@@ -67,7 +70,10 @@ export function Menu(): JSX.Element {
               Folder
               <DropdownMenuShortcut>ALT+C Then F</DropdownMenuShortcut>
             </DropdownMenuItem>
-            <DropdownMenuItem className="cursor-pointer">
+            <DropdownMenuItem
+              className="cursor-pointer"
+              onClick={() => setOpen(DialogType.NOTE)}
+            >
               Note
               <DropdownMenuShortcut>ALT+C Then N</DropdownMenuShortcut>
             </DropdownMenuItem>
@@ -82,8 +88,7 @@ export function Menu(): JSX.Element {
         </DropdownMenuContent>
       </DropdownMenu>
 
-      {dialogNewFolderElement}
-      {dialogNewDocumentElement}
+      {dialogElement}
     </>
   );
 }
