@@ -1,8 +1,8 @@
 export interface File {
   id: string;
   name: string;
-  description?: string;
-  type: string;
+  tags?: string[];
+  type: FileType;
   size: number;
   date: Date;
   url: string;
@@ -15,11 +15,9 @@ export enum FileType {
   PDF = 'application/pdf',
 }
 
-export enum DialogType {
-  NONE = 'none',
-  FOLDER = 'folder',
-  NOTE = 'note',
-  DOCUMENT = 'document',
-}
-
-export const ALT_C = 'ALT-C';
+export const FileTypeMap: Record<FileType, string> = {
+  [FileType.TEXT]: 'Text',
+  [FileType.IMAGE_JPEG]: 'Jpeg',
+  [FileType.DOCUMENT]: 'Word Document',
+  [FileType.PDF]: 'Pdf',
+} as const;

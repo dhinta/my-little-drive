@@ -29,7 +29,6 @@ export function Menu(): JSX.Element {
   const onFolderSave = (name: string) => console.log(name);
 
   useEffect(() => {
-    console.log('keyboardShortcutCode', keyboardShortcutCode);
     if (keyboardEventMapper[keyboardShortcutCode]) {
       keyboardEventMapper[keyboardShortcutCode]();
     }

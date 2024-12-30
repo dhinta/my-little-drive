@@ -8,7 +8,7 @@ const files: File[] = [
   {
     id: '1',
     name: 'test.txt',
-    description: 'This is a test file.',
+    tags: ['test', 'example'],
     type: FileType.TEXT,
     size: 123,
     date: new Date(),
@@ -17,7 +17,7 @@ const files: File[] = [
   {
     id: '2',
     name: 'image.jpg',
-    description: 'This is an image.',
+    tags: ['image', 'photo'],
     type: FileType.IMAGE_JPEG,
     size: 456,
     date: new Date(),
@@ -26,7 +26,7 @@ const files: File[] = [
   {
     id: '3',
     name: 'document.docx',
-    description: 'This is a document.',
+    tags: ['document', 'example'],
     type: FileType.DOCUMENT,
     size: 789,
     date: new Date(),
@@ -35,7 +35,6 @@ const files: File[] = [
   {
     id: '4',
     name: 'presentation.pdf',
-    description: 'This is a presentation.',
     type: FileType.PDF,
     size: 7890,
     date: new Date(),

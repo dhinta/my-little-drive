@@ -1,5 +1,6 @@
 import preview from '@/assets/preview.png';
 import { File, User } from '@/common/models';
+import { Badge } from '@/vendors/ui/badge';
 import {
   Card,
   CardContent,
@@ -8,6 +9,8 @@ import {
   CardTitle,
 } from '@/vendors/ui/card';
 import { CircleUserRound } from 'lucide-react';
+import { DisplayDate } from '../display-date/display-date';
+import { ActionsButtons } from './actions-buttons';
 
 interface Props {
   files: File[];
@@ -19,9 +22,14 @@ export function DriveGridView({ files, user }: Props) {
     <div className="flex flex-wrap">
       {files.map(file => (
         <Card className="w-[350px] mr-4 mb-4" key={file.id}>
-          <CardHeader>
-            <CardTitle>{file.name}</CardTitle>
-            <CardDescription>{file.description ?? ''}</CardDescription>
+          <CardHeader className="py-4">
+            <CardTitle className="flex items-center justify-between">
+              <span>{file.name}</span>
+              <ActionsButtons />
+            </CardTitle>
+            <CardDescription className="flex gap-2">
+              {file.tags?.map(tag => <Badge>{tag}</Badge>)}
+            </CardDescription>
           </CardHeader>
           <CardContent className="p-4">
             <div className="grid w-full items-center gap-4">
@@ -46,7 +54,7 @@ export function DriveGridView({ files, user }: Props) {
                   {user.name} created
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  {file.date.toLocaleDateString()}
+                  <DisplayDate date={file.date} />
                 </span>
               </div>
             </div>

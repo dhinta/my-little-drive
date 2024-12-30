@@ -21,7 +21,7 @@ export function StrictlyPublicLayout() {
 
   return (
     <div className="bg-gray-100">
-      <main className="flex-1 p-6">
+      <main className="flex-1">
         <Outlet />
       </main>
     </div>

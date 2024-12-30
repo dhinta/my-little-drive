@@ -1,4 +1,5 @@
-import { File, User } from '@/common/models';
+import { File, FileTypeMap, User } from '@/common/models';
+import { Badge } from '@/vendors/ui/badge';
 import {
   Table,
   TableBody,
@@ -10,6 +11,8 @@ import {
   TableRow,
 } from '@/vendors/ui/table';
 import { CircleUserRound } from 'lucide-react';
+import { DisplayDate } from '../display-date/display-date';
+import { ActionsButtons } from './actions-buttons';
 
 interface Props {
   files: File[];
@@ -24,19 +27,26 @@ export function DriveListView({ files, user }: Props) {
       </TableCaption>
       <TableHeader>
         <TableRow>
-          <TableHead className="w-[100px] py-4">Name</TableHead>
+          <TableHead className="py-4">Name</TableHead>
+          <TableHead className="py-4">Tags</TableHead>
           <TableHead>Type</TableHead>
           <TableHead>Owner</TableHead>
           <TableHead>Size</TableHead>
           <TableHead className="text-right">Created/Updated</TableHead>
+          <TableHead className="text-right">Actions</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
         {files.map(file => (
           <TableRow key={file.id}>
-            <TableCell className="font-medium py-4">{file.name}</TableCell>
-            <TableCell>{file.type}</TableCell>
-            <TableCell>
+            <TableCell className="font-medium py-4 w-1/7">
+              {file.name}
+            </TableCell>
+            <TableCell className="w-1/7 flex gap-2">
+              {file.tags?.map(tag => <Badge variant="outline">{tag}</Badge>)}
+            </TableCell>
+            <TableCell className="w-1/7">{FileTypeMap[file.type]}</TableCell>
+            <TableCell className="w-1/7">
               {user.image ? (
                 <img
                   src={user.image}
@@ -47,16 +57,19 @@ export function DriveListView({ files, user }: Props) {
                 <CircleUserRound size={20} />
               )}
             </TableCell>
-            <TableCell>{file.size}</TableCell>
-            <TableCell className="text-right">
-              {file.date.toLocaleDateString()}
+            <TableCell className="w-1/7">{file.size}</TableCell>
+            <TableCell className="text-right w-1/7">
+              <DisplayDate date={file.date} />
+            </TableCell>
+            <TableCell className="w-1/7 flex justify-end items-center py-4">
+              <ActionsButtons />
             </TableCell>
           </TableRow>
         ))}
       </TableBody>
       <TableFooter>
         <TableRow>
-          <TableCell colSpan={4} className="py-4">
+          <TableCell colSpan={6} className="py-4">
             Total assets
           </TableCell>
           <TableCell className="text-right">{files.length}</TableCell>
