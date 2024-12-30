@@ -1,4 +1,4 @@
-import { Folder, House, Trash2, Users } from 'lucide-react';
+import { Folder, House, Tag, Trash2, Users } from 'lucide-react';
 import { Link } from 'react-router';
 import { Menu } from './menu';
 
@@ -33,6 +33,15 @@ export function Sidebar() {
           >
             <Users size={24} />
             Shared with me
+          </Link>
+        </li>
+        <li className="mb-4">
+          <Link
+            to="/tags"
+            className="flex items-center gap-2 text-lg hover:text-theme-blue"
+          >
+            <Tag size={24} />
+            My Tags
           </Link>
         </li>
         <li className="mb-4">

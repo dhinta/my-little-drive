@@ -1,4 +1,4 @@
-import { Home, Login } from '@/pages';
+import { Home, Login, Tags } from '@/pages';
 import { createBrowserRouter, redirect } from 'react-router';
 import {
   PrivateLayout,
@@ -13,6 +13,10 @@ export const routes = createBrowserRouter([
       {
         path: '',
         element: <Home />,
+      },
+      {
+        path: 'tags',
+        element: <Tags />,
       },
     ],
   },
