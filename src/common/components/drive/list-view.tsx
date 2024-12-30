@@ -43,7 +43,11 @@ export function DriveListView({ files, user }: Props) {
               {file.name}
             </TableCell>
             <TableCell className="w-1/7 flex gap-2">
-              {file.tags?.map(tag => <Badge variant="outline">{tag}</Badge>)}
+              {file.tags?.map(tag => (
+                <Badge variant="outline" key={tag}>
+                  {tag}
+                </Badge>
+              ))}
             </TableCell>
             <TableCell className="w-1/7">{FileTypeMap[file.type]}</TableCell>
             <TableCell className="w-1/7">

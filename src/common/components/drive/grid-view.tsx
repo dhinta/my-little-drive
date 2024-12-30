@@ -28,7 +28,7 @@ export function DriveGridView({ files, user }: Props) {
               <ActionsButtons />
             </CardTitle>
             <CardDescription className="flex gap-2">
-              {file.tags?.map(tag => <Badge>{tag}</Badge>)}
+              {file.tags?.map(tag => <Badge key={tag}>{tag}</Badge>)}
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4">
