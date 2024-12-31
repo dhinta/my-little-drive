@@ -12,6 +12,12 @@ const schema = defineSchema({
     googleId: v.optional(v.string()),
     githubId: v.optional(v.string()),
   }).index('email', ['email']),
+  tags: defineTable({
+    name: v.string(),
+    created_by: v.string(),
+    _creationTime: v.number(),
+    status: v.string(),
+  }).index('created_by', ['created_by']),
 });
 
 export default schema;

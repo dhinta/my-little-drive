@@ -1,5 +1,7 @@
+import { Id } from '@convex/_generated/dataModel';
+
 export interface Tag {
-  _id: string;
+  _id: Id<'tags'>;
   name: string;
   created_by: string;
   _creationTime: number;

@@ -9,12 +9,21 @@ interface Props {
   tags: Tag[];
   onEdit: (tag: Tag) => void;
   onDelete: (tag: Tag) => void;
+  inProgressEdit: boolean;
+  inProgressDelete: boolean;
 }
 
-export function ListTags({ tags, onEdit, onDelete }: Props) {
+export function ListTags({
+  tags,
+  onEdit,
+  onDelete,
+  inProgressEdit,
+  inProgressDelete,
+}: Props) {
   const [editModeIndex, setEditModeIndex] = useState(-1);
   const [editModeName, setEditModeName] = useState('');
   const ref = useRef<HTMLUListElement>(null);
+  const isChangesInProgress = inProgressEdit || inProgressDelete;
 
   const onEditTagClick = (index: number, tag: Tag) => {
     setEditModeName(tag.name);
@@ -50,7 +59,10 @@ export function ListTags({ tags, onEdit, onDelete }: Props) {
   return (
     <ul className="w-[300px]" ref={ref}>
       {tags.map((tag, index) => (
-        <li key={tag._id} className="flex justify-between mb-6">
+        <li
+          key={tag._id}
+          className={`flex justify-between mb-6 ${isChangesInProgress ? 'opacity-40 pointer-events-none' : ''}`}
+        >
           {editModeIndex !== index ? (
             <div
               tabIndex={0}
@@ -64,6 +76,11 @@ export function ListTags({ tags, onEdit, onDelete }: Props) {
               autoFocus
               value={editModeName}
               onChange={e => setEditModeName(e.target.value)}
+              onKeyDown={e => {
+                if (e.key === 'Enter') {
+                  onEditTag(tag);
+                }
+              }}
               type="text"
               className="w-[250px] py-4 text-xl font-bold text-muted-foreground hover:ring-1 outline-ring-1 outline-theme-blue rounded-md"
             />
@@ -88,7 +105,12 @@ export function ListTags({ tags, onEdit, onDelete }: Props) {
               </>
             ) : (
               <>
-                <Button onClick={() => onEditTag(tag)}>Save</Button>
+                <Button
+                  disabled={isChangesInProgress || !editModeName}
+                  onClick={() => onEditTag(tag)}
+                >
+                  Save
+                </Button>
                 <Button variant="secondary" onClick={onCancelEdit}>
                   Cancel
                 </Button>

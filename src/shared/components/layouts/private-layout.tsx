@@ -1,4 +1,5 @@
 import { Loader } from '@/common/components';
+import { Toaster } from '@/vendors/ui/toaster';
 import { useConvexAuth } from 'convex/react';
 import { Navigate, Outlet } from 'react-router';
 import { Header, Sidebar } from '../app-shell';
@@ -27,6 +28,7 @@ export function PrivateLayout() {
           <Outlet />
         </main>
       </div>
+      <Toaster />
     </div>
   );
 }
