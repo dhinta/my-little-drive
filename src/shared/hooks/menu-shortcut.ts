@@ -12,7 +12,7 @@ export function useMenuShortcut(chars: string[] = []) {
         return;
       }
 
-      if (chars.includes(char)) {
+      if (chars.includes(char) && keyboardShortcutCode === ALT_C) {
         setKeyboardShortcutCode(text => `${text}-${char}`);
         e.preventDefault();
       }
@@ -24,10 +24,11 @@ export function useMenuShortcut(chars: string[] = []) {
     document.addEventListener('keyup', releaseKeyboardShortcut);
 
     return () => {
+      console.log('unmount');
       document.removeEventListener('keydown', setKeyboardShortcut);
       document.removeEventListener('keyup', releaseKeyboardShortcut);
     };
-  }, []);
+  }, [keyboardShortcutCode]);
 
   return [keyboardShortcutCode, setKeyboardShortcutCode] as const;
 }
