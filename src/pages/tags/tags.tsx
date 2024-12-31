@@ -8,6 +8,7 @@ import { getErrorMessage } from '@/common/utils';
 import { useToast } from '@/vendors/hooks/use-toast';
 import { Separator } from '@/vendors/ui/separator';
 import { api } from '@convex/_generated/api';
+import { Id } from '@convex/_generated/dataModel';
 import { useMutation, useQuery } from 'convex/react';
 import { AlertCircle, Tag as TagIcon } from 'lucide-react';
 import { useState } from 'react';
@@ -27,7 +28,9 @@ export function Tags() {
   const { toast } = useToast();
 
   const tags = useQuery(api.tags.list) as Tag[];
-  const user = useQuery(api.users.getCurrentUser) as User;
+  const user = useQuery(api.users.getCurrentUser) as {
+    _id: Id<'users'>;
+  } & User;
   const save = useMutation(api.tags.add).withOptimisticUpdate(
     (old, newTag) => ({
       ...old,

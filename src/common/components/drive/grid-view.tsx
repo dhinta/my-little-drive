@@ -1,5 +1,5 @@
 import preview from '@/assets/preview.png';
-import { File, User } from '@/common/models';
+import { Asset, User } from '@/common/models';
 import { Badge } from '@/vendors/ui/badge';
 import {
   Card,
@@ -13,22 +13,26 @@ import { DisplayDate } from '../display-date/display-date';
 import { ActionsButtons } from './actions-buttons';
 
 interface Props {
-  files: File[];
+  assets: Asset[];
   user: User;
 }
 
-export function DriveGridView({ files, user }: Props) {
+export function DriveGridView({ assets, user }: Props) {
   return (
     <div className="flex flex-wrap">
-      {files.map(file => (
-        <Card className="w-[350px] mr-4 mb-4" key={file.id}>
+      {assets.map(asset => (
+        <Card className="w-[350px] mr-4 mb-4" key={asset._id}>
           <CardHeader className="py-4">
             <CardTitle className="flex items-center justify-between">
-              <span>{file.name}</span>
+              <span>{asset.name}</span>
               <ActionsButtons />
             </CardTitle>
             <CardDescription className="flex gap-2">
-              {file.tags?.map(tag => <Badge key={tag}>{tag}</Badge>)}
+              {asset.tags?.map(tag => (
+                <Badge key={tag.tag_id} variant="outline">
+                  {tag.name}
+                </Badge>
+              ))}{' '}
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4">
@@ -54,7 +58,7 @@ export function DriveGridView({ files, user }: Props) {
                   {user.name} created
                 </span>
                 <span className="text-sm text-muted-foreground">
-                  <DisplayDate date={file.date} />
+                  <DisplayDate date={asset._creationTime} />
                 </span>
               </div>
             </div>

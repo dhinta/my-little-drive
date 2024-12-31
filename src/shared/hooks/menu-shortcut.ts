@@ -24,7 +24,6 @@ export function useMenuShortcut(chars: string[] = []) {
     document.addEventListener('keyup', releaseKeyboardShortcut);
 
     return () => {
-      console.log('unmount');
       document.removeEventListener('keydown', setKeyboardShortcut);
       document.removeEventListener('keyup', releaseKeyboardShortcut);
     };

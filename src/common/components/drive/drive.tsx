@@ -1,11 +1,11 @@
-import { File, User } from '@/common/models';
+import { Asset, User } from '@/common/models';
 import { LayoutGrid, LayoutList } from 'lucide-react';
 import { useState } from 'react';
 import { DriveGridView } from './grid-view';
 import { DriveListView } from './list-view';
 
 interface Props {
-  files: File[];
+  assets: Asset[];
   user: User;
 }
 
@@ -14,7 +14,7 @@ enum View {
   GRID = 'grid',
 }
 
-export function Drive({ files, user }: Props) {
+export function Drive({ assets, user }: Props) {
   const [view, setView] = useState<View>(View.LIST);
 
   return (
@@ -40,9 +40,9 @@ export function Drive({ files, user }: Props) {
 
       <>
         {view === View.LIST ? (
-          <DriveListView files={files} user={user} />
+          <DriveListView assets={assets} user={user} />
         ) : (
-          <DriveGridView files={files} user={user} />
+          <DriveGridView assets={assets} user={user} />
         )}
       </>
     </div>

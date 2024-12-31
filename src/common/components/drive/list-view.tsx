@@ -1,4 +1,4 @@
-import { File, FileTypeMap, User } from '@/common/models';
+import { Asset, FileTypeMap, User } from '@/common/models';
 import { Badge } from '@/vendors/ui/badge';
 import {
   Table,
@@ -15,11 +15,11 @@ import { DisplayDate } from '../display-date/display-date';
 import { ActionsButtons } from './actions-buttons';
 
 interface Props {
-  files: File[];
+  assets: Asset[];
   user: User;
 }
 
-export function DriveListView({ files, user }: Props) {
+export function DriveListView({ assets, user }: Props) {
   return (
     <Table>
       <TableCaption>
@@ -37,19 +37,21 @@ export function DriveListView({ files, user }: Props) {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {files.map(file => (
-          <TableRow key={file.id}>
-            <TableCell className="font-medium py-4 w-1/7">
-              {file.name}
+        {assets.map(asset => (
+          <TableRow key={asset._id}>
+            <TableCell className="font-medium w-1/7">{asset.name}</TableCell>
+            <TableCell className="w-1/7">
+              <div className="flex gap-2">
+                {asset.tags?.map(tag => (
+                  <Badge variant="outline" key={tag.tag_id}>
+                    {tag.name}
+                  </Badge>
+                ))}
+              </div>
             </TableCell>
-            <TableCell className="w-1/7 flex gap-2">
-              {file.tags?.map(tag => (
-                <Badge variant="outline" key={tag}>
-                  {tag}
-                </Badge>
-              ))}
+            <TableCell className="w-1/7">
+              {asset.docType ? FileTypeMap[asset.docType] : asset.type}
             </TableCell>
-            <TableCell className="w-1/7">{FileTypeMap[file.type]}</TableCell>
             <TableCell className="w-1/7">
               {user.image ? (
                 <img
@@ -61,9 +63,9 @@ export function DriveListView({ files, user }: Props) {
                 <CircleUserRound size={20} />
               )}
             </TableCell>
-            <TableCell className="w-1/7">{file.size}</TableCell>
+            <TableCell className="w-1/7">{asset.size}</TableCell>
             <TableCell className="text-right w-1/7">
-              <DisplayDate date={file.date} />
+              <DisplayDate date={asset._creationTime} />
             </TableCell>
             <TableCell className="w-1/7 flex justify-end items-center py-4">
               <ActionsButtons />
@@ -76,7 +78,7 @@ export function DriveListView({ files, user }: Props) {
           <TableCell colSpan={6} className="py-4">
             Total assets
           </TableCell>
-          <TableCell className="text-right">{files.length}</TableCell>
+          <TableCell className="text-right">{assets.length}</TableCell>
         </TableRow>
       </TableFooter>
     </Table>

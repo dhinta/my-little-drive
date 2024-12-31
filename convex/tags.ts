@@ -17,7 +17,11 @@ export const list = query({
 });
 
 export const add = mutation({
-  args: { name: v.string(), created_by: v.string(), status: v.string() },
+  args: {
+    name: v.string(),
+    created_by: v.id('users'),
+    status: v.string(),
+  },
   handler: async (ctx, { name, created_by, status }) => {
     const userId = await getAuthUserId(ctx);
     if (userId === null) {
