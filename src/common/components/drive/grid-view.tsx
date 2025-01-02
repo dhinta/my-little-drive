@@ -25,7 +25,7 @@ export function DriveGridView({ assets, user }: Props) {
           <CardHeader className="py-4">
             <CardTitle className="flex items-center justify-between">
               <span>{asset.name}</span>
-              <ActionsButtons />
+              <ActionsButtons asset={asset} />
             </CardTitle>
             <CardDescription className="flex gap-2">
               {asset.tags?.map(tag => (

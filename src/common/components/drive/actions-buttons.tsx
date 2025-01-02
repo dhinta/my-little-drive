@@ -1,3 +1,6 @@
+import { AssetActionsContext, AssetActionType } from '@/common/context';
+import { Asset } from '@/common/models';
+import { Button } from '@/vendors/ui/button';
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -11,11 +14,18 @@ import {
   Download,
   EllipsisVertical,
   FolderPen,
+  TagIcon,
   Trash,
   UserPlus,
 } from 'lucide-react';
+import { useContext } from 'react';
 
-export function ActionsButtons() {
+interface Props {
+  asset: Asset;
+}
+
+export function ActionsButtons({ asset }: Props) {
+  const { dispatch } = useContext(AssetActionsContext);
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
@@ -25,6 +35,20 @@ export function ActionsButtons() {
         <DropdownMenuGroup>
           <DropdownMenuItem className="cursor-pointer">
             <UserPlus size={16} /> Share with
+          </DropdownMenuItem>
+          <DropdownMenuItem className="cursor-pointer">
+            <Button
+              variant="ghost"
+              className="p-0 hover:bg-transparent h-full"
+              onClick={() =>
+                dispatch({
+                  type: AssetActionType.MANAGE_TAGS,
+                  payload: { asset },
+                })
+              }
+            >
+              <TagIcon size={16} /> Manage Tags
+            </Button>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">

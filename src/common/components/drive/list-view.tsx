@@ -68,7 +68,7 @@ export function DriveListView({ assets, user }: Props) {
               <DisplayDate date={asset._creationTime} />
             </TableCell>
             <TableCell className="w-1/7 flex justify-end items-center py-4">
-              <ActionsButtons />
+              <ActionsButtons asset={asset} />
             </TableCell>
           </TableRow>
         ))}
