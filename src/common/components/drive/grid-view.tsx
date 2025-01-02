@@ -32,7 +32,8 @@ export function DriveGridView({ assets, user }: Props) {
                 <Badge key={tag.tag_id} variant="outline">
                   {tag.name}
                 </Badge>
-              ))}{' '}
+              ))}
+              &nbsp;
             </CardDescription>
           </CardHeader>
           <CardContent className="p-4">

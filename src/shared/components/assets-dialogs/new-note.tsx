@@ -61,7 +61,7 @@ export function NewNote({ setOpen, onSave }: Props) {
             >
               Cancel
             </Button>
-            <Button type="submit">Create</Button>
+            <Button type="submit">Save</Button>
           </DialogFooter>
         </form>
       </DialogContent>

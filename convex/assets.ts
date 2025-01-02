@@ -21,31 +21,33 @@ export const list = query({
       .collect();
 
     return Promise.all(
-      assets.map(async ({ name, _creationTime, parent, _id, created_by }) => {
-        const tagsList = await ctx.db
-          .query('asset_tags')
-          .filter(tag => tag.eq(tag.field('asset_id'), _id))
-          .collect();
+      assets.map(
+        async ({ name, _creationTime, parent, _id, created_by, type }) => {
+          const tagsList = await ctx.db
+            .query('asset_tags')
+            .filter(tag => tag.eq(tag.field('asset_id'), _id))
+            .collect();
 
-        const tags = await Promise.all(
-          tagsList.map(async ({ tag_id }) => {
-            const { name } = (await ctx.db.get(tag_id))!;
-            return { name, tag_id };
-          }),
-        );
+          const tags = await Promise.all(
+            tagsList.map(async ({ tag_id }) => {
+              const { name } = (await ctx.db.get(tag_id))!;
+              return { name, tag_id };
+            }),
+          );
 
-        return {
-          _id,
-          name,
-          type: 'folder',
-          size: 0,
-          created_by,
-          _creationTime,
-          status: 'active',
-          parent,
-          tags,
-        };
-      }),
+          return {
+            _id,
+            name,
+            type,
+            size: 0,
+            created_by,
+            _creationTime,
+            status: 'active',
+            parent,
+            tags,
+          };
+        },
+      ),
     );
   },
 });
@@ -66,6 +68,34 @@ export const addFolder = mutation({
       status: 'active',
       size: 0,
       type: 'folder',
+    });
+    await ctx.db.insert('asset_users', {
+      asset_id: assetId,
+      user_id: userId,
+      ownerType: 'owner',
+    });
+    return assetId;
+  },
+});
+
+export const addNote = mutation({
+  args: {
+    name: v.string(),
+    content: v.optional(v.string()),
+  },
+  handler: async (ctx, { name, content = '' }) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error('Not signed in');
+    }
+
+    const assetId = await ctx.db.insert('assets', {
+      name,
+      content,
+      created_by: userId,
+      status: 'active',
+      size: 0,
+      type: 'note',
     });
     await ctx.db.insert('asset_users', {
       asset_id: assetId,

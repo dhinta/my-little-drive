@@ -26,9 +26,10 @@ export function Menu(): JSX.Element {
     [`${ALT_C}-N`]: () => setOpen(DialogType.NOTE),
   };
   const saveFolderMutation = useMutation(api.assets.addFolder);
+  const saveNoteMutation = useMutation(api.assets.addNote);
 
   const onNoteSave = (name: string, content: string) =>
-    console.log(name, content);
+    saveNoteMutation({ name, content });
   const onFolderSave = (name: string) => saveFolderMutation({ name });
 
   useEffect(() => {
