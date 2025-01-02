@@ -53,11 +53,8 @@ export const list = query({
 export const addFolder = mutation({
   args: {
     name: v.string(),
-    status: v.string(),
-    size: v.number(),
-    type: v.string(),
   },
-  handler: async (ctx, { name, status, size, type }) => {
+  handler: async (ctx, { name }) => {
     const userId = await getAuthUserId(ctx);
     if (userId === null) {
       throw new Error('Not signed in');
@@ -66,9 +63,9 @@ export const addFolder = mutation({
     const assetId = await ctx.db.insert('assets', {
       name,
       created_by: userId,
-      status,
-      size,
-      type,
+      status: 'active',
+      size: 0,
+      type: 'folder',
     });
     await ctx.db.insert('asset_users', {
       asset_id: assetId,

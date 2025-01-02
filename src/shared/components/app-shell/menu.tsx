@@ -11,6 +11,8 @@ import {
   DropdownMenuShortcut,
   DropdownMenuTrigger,
 } from '@/vendors/ui/dropdown-menu';
+import { api } from '@convex/_generated/api';
+import { useMutation } from 'convex/react';
 import { Plus } from 'lucide-react';
 import { useEffect, useState } from 'react';
 import { NewDocument, NewFolder, NewNote } from '../assets-dialogs';
@@ -23,10 +25,11 @@ export function Menu(): JSX.Element {
     [`${ALT_C}-D`]: () => setOpen(DialogType.DOCUMENT),
     [`${ALT_C}-N`]: () => setOpen(DialogType.NOTE),
   };
+  const saveFolderMutation = useMutation(api.assets.addFolder);
 
   const onNoteSave = (name: string, content: string) =>
     console.log(name, content);
-  const onFolderSave = (name: string) => console.log(name);
+  const onFolderSave = (name: string) => saveFolderMutation({ name });
 
   useEffect(() => {
     if (keyboardEventMapper[keyboardShortcutCode]) {
