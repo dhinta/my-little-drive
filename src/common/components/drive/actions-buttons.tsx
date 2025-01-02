@@ -25,6 +25,7 @@ interface Props {
 }
 
 export function ActionsButtons({ asset }: Props) {
+  const btnClassName = 'p-0 hover:bg-transparent h-full';
   const { dispatch } = useContext(AssetActionsContext);
   return (
     <DropdownMenu>
@@ -39,7 +40,7 @@ export function ActionsButtons({ asset }: Props) {
           <DropdownMenuItem className="cursor-pointer">
             <Button
               variant="ghost"
-              className="p-0 hover:bg-transparent h-full"
+              className={btnClassName}
               onClick={() =>
                 dispatch({
                   type: AssetActionType.MANAGE_TAGS,
@@ -59,7 +60,18 @@ export function ActionsButtons({ asset }: Props) {
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
-            <FolderPen size={16} /> Rename
+            <Button
+              variant="ghost"
+              className={btnClassName}
+              onClick={() =>
+                dispatch({
+                  type: AssetActionType.RENAME,
+                  payload: { asset },
+                })
+              }
+            >
+              <FolderPen size={16} /> Rename
+            </Button>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
             <Trash size={16} /> Delete

@@ -11,6 +11,7 @@ import { useReducer, useState } from 'react';
 import { DriveGridView } from './grid-view';
 import { DriveListView } from './list-view';
 import { ManageTagDialog } from './modals/manage-tag-dialog';
+import { RenameAsset } from './modals/rename-asset';
 
 interface Props {
   assets: Asset[];
@@ -37,12 +38,14 @@ export function Drive({ assets, user }: Props) {
     defaultAssetActionsState,
   );
 
-  console.log(assetActionState);
-
   const manageTagDialog = assetActionState.actionType ===
     AssetActionType.MANAGE_TAGS && (
     <ManageTagDialog asset={assetActionState.asset} />
   );
+  const renameDialog = assetActionState.actionType ===
+    AssetActionType.RENAME && <RenameAsset asset={assetActionState.asset} />;
+
+  const dialog = manageTagDialog || renameDialog;
 
   return (
     <AssetActionsContext.Provider value={{ state: assetActionState, dispatch }}>
@@ -74,7 +77,7 @@ export function Drive({ assets, user }: Props) {
           )}
         </>
       </div>
-      {manageTagDialog}
+      {dialog}
     </AssetActionsContext.Provider>
   );
 }

@@ -11,15 +11,6 @@ export const list = query({
       throw new Error('Not signed in');
     }
 
-    // const messages = await ctx.db.query("messages").order("desc").take(100);
-    // // Reverse the list so that it's in a chronological order.
-    // return Promise.all(
-    //   messages.reverse().map(async (message) => {
-    //     const { name, email, phone } = (await ctx.db.get(message.userId))!;
-    //     return { ...message, author: name ?? email ?? phone ?? "Anonymous" };
-    //   }),
-    // );
-
     const assets = await ctx.db
       .query('assets')
       .filter(
@@ -56,19 +47,6 @@ export const list = query({
         };
       }),
     );
-
-    // return assets
-    //   .filter(asset => asset.created_by === userId && asset.status === 'active')
-    //   .map(({ name, _creationTime, parent, _id }) => ({
-    //     _id,
-    //     name,
-    //     type: 'folder',
-    //     size: 0,
-    //     created_by: userId,
-    //     _creationTime,
-    //     status: 'active',
-    //     parent,
-    //   }));
   },
 });
 
@@ -113,14 +91,14 @@ export const addFolder = mutation({
 //   },
 // });
 
-// export const update = mutation({
-//   args: { _id: v.id('tags'), name: v.string() },
-//   handler: async (ctx, { _id, name }) => {
-//     const userId = await getAuthUserId(ctx);
-//     if (userId === null) {
-//       throw new Error('Not signed in');
-//     }
+export const updateAssetName = mutation({
+  args: { _id: v.id('assets'), name: v.string() },
+  handler: async (ctx, { _id, name }) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error('Not signed in');
+    }
 
-//     await ctx.db.patch(_id, { name });
-//   },
-// });
+    await ctx.db.patch(_id, { name });
+  },
+});
