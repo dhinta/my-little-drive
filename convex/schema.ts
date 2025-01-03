@@ -23,6 +23,7 @@ const schema = defineSchema({
     path: v.optional(v.string()),
     type: v.string(),
     doc_type: v.optional(v.string()),
+    doc_id: v.optional(v.id('_storage')),
     created_by: v.id('users'),
     size: v.number(),
     status: v.string(),

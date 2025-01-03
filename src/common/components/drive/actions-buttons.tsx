@@ -1,5 +1,5 @@
 import { AssetActionsContext, AssetActionType } from '@/common/context';
-import { Asset } from '@/common/models';
+import { Asset, AssetType } from '@/common/models';
 import { Button } from '@/vendors/ui/button';
 import {
   DropdownMenu,
@@ -27,6 +27,7 @@ interface Props {
 export function ActionsButtons({ asset }: Props) {
   const btnClassName = 'p-0 hover:bg-transparent h-full';
   const { dispatch } = useContext(AssetActionsContext);
+  const isFolder = asset.type === AssetType.FOLDER;
   return (
     <DropdownMenu>
       <DropdownMenuTrigger className="cursor-pointer" asChild>
@@ -56,7 +57,13 @@ export function ActionsButtons({ asset }: Props) {
             <Download size={16} /> Download
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
-            <Copy size={16} /> Make a copy
+            <Button
+              variant="ghost"
+              className={btnClassName}
+              disabled={isFolder}
+            >
+              <Copy size={16} /> Make a copy
+            </Button>
           </DropdownMenuItem>
           <DropdownMenuSeparator />
           <DropdownMenuItem className="cursor-pointer">
@@ -74,7 +81,13 @@ export function ActionsButtons({ asset }: Props) {
             </Button>
           </DropdownMenuItem>
           <DropdownMenuItem className="cursor-pointer">
-            <Trash size={16} /> Delete
+            <Button
+              variant="ghost"
+              className={btnClassName}
+              disabled={isFolder}
+            >
+              <Trash size={16} /> Delete
+            </Button>
           </DropdownMenuItem>
         </DropdownMenuGroup>
       </DropdownMenuContent>

@@ -106,6 +106,45 @@ export const addNote = mutation({
   },
 });
 
+export const generateUploadUrl = mutation(async ctx => {
+  return await ctx.storage.generateUploadUrl();
+});
+
+export const addDocument = mutation({
+  args: {
+    fileId: v.id('_storage'),
+    name: v.string(),
+  },
+  handler: async (ctx, { fileId, name }) => {
+    const userId = await getAuthUserId(ctx);
+    if (userId === null) {
+      throw new Error('Not signed in');
+    }
+
+    const metadata = await ctx.storage.getMetadata(fileId);
+    if (!metadata) {
+      throw new Error('File not found');
+    }
+
+    const assetId = await ctx.db.insert('assets', {
+      name: name,
+      path: await ctx.storage.generateUploadUrl(),
+      doc_type: metadata.contentType!,
+      doc_id: fileId,
+      created_by: userId,
+      status: 'active',
+      size: metadata.size,
+      type: 'document',
+    });
+    await ctx.db.insert('asset_users', {
+      asset_id: assetId,
+      user_id: userId,
+      ownerType: 'owner',
+    });
+    return assetId;
+  },
+});
+
 // export const remove = mutation({
 //   args: { _id: v.id('tags') },
 //   handler: async (ctx, { _id }) => {
